@@ -38,6 +38,10 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
+    <modules>
+        <module>integration-test</module>
+    </modules>
+
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
