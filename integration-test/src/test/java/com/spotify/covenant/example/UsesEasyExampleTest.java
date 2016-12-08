@@ -5,6 +5,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import com.spotify.covenant.Recorder;
+import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +20,10 @@ public class UsesEasyExampleTest {
 
   @Before
   public void setUp() throws Exception {
-    easyExampleStub = new EasyExampleStub();
+    Recorder recorder = (moduleName, methodName, result, args) ->
+        System.out.println("invocation: " + moduleName + "." + methodName +
+                           "(" + Arrays.toString(args) + ") -> " + result);
+    easyExampleStub = new EasyExampleStub(recorder);
 
     sut = new UsesEasyExample(easyExampleStub);
   }

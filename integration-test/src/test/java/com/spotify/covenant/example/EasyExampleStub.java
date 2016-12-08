@@ -1,7 +1,8 @@
 package com.spotify.covenant.example;
 
 import com.spotify.covenant.ExpectationBuilder;
-import com.spotify.covenant.NoMatchingStubException;
+import com.spotify.covenant.NoMatchingInvocationException;
+import com.spotify.covenant.Recorder;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
@@ -16,26 +17,37 @@ public class EasyExampleStub implements EasyExample {
   private final List<Method1InvocationStub> method1InvocationStubs = new CopyOnWriteArrayList<>();
   private final List<AnotherMethodInvocationStub> anotherMethodInvocationStubs = new CopyOnWriteArrayList<>();
 
+  private final Recorder recorder;
+
+  public EasyExampleStub(Recorder recorder) {
+    this.recorder = recorder;
+  }
+
   @Override
   public String method1(String arg1, int arg2) {
     for (Method1InvocationStub stub : method1InvocationStubs) {
       if (stub.arg1Matcher.matches(arg1) && stub.arg2Matcher.matches(arg2)) {
-        return stub.responseSupplier.get();
+        String result = stub.responseSupplier.get();
+        recorder.recordInvocation(EasyExample.class.getName(), "method1", result,
+            arg1, arg2);
+        return result;
       }
     }
 
-    throw new NoMatchingStubException();
+    throw new NoMatchingInvocationException();
   }
 
   @Override
   public List<String> anotherMethod(List<String> inputs) {
     for (AnotherMethodInvocationStub stub : anotherMethodInvocationStubs) {
       if (stub.inputsMatcher.matches(inputs)) {
-        return stub.responseSupplier.get();
+        List<String> result = stub.responseSupplier.get();
+        recorder.recordInvocation(EasyExample.class.getName(), "anotherMethod", result, inputs);
+        return result;
       }
     }
 
-    throw new NoMatchingStubException();
+    throw new NoMatchingInvocationException();
   }
 
   public ExpectationBuilder<String> whenMethod1(Matcher<String> arg1Matcher, Matcher<Integer> arg2Matcher) {
