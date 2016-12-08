@@ -20,6 +20,8 @@ public class UsesEasyExampleTest {
 
   @Before
   public void setUp() throws Exception {
+    // this should involve creating a Recorder that stores the invocations somewhere
+    // more accessible
     Recorder recorder = (moduleName, methodName, result, args) ->
         System.out.println("invocation: " + moduleName + "." + methodName +
                            "(" + Arrays.toString(args) + ") -> " + result);

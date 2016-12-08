@@ -1,6 +1,7 @@
 package com.spotify.covenant.example;
 
 import com.spotify.covenant.ExpectationBuilder;
+import com.spotify.covenant.ExpectationBuilderImpl;
 import com.spotify.covenant.NoMatchingInvocationException;
 import com.spotify.covenant.Recorder;
 import java.util.List;
@@ -56,35 +57,6 @@ public class EasyExampleStub implements EasyExample {
 
   public ExpectationBuilder<List<String>> whenAnotherMethod(Matcher<List<String>> inputsMatcher) {
     return new ExpectationBuilderImpl<>(new AnotherMethodInvocationStub(inputsMatcher));
-  }
-
-  public class ExpectationBuilderImpl<R, T extends Consumer<Supplier<R>>>
-      implements ExpectationBuilder<R> {
-
-    private final T methodInvocationStub;
-
-    public ExpectationBuilderImpl(T methodInvocationStub) {
-      this.methodInvocationStub = methodInvocationStub;
-    }
-
-    // ideas
-    // void then(Runnable) => execute side effects
-    // void then(Consumer<Arguments>) => side effects based on args
-    // void thenReturn(Function<Arguments, T>) => return value based on args
-    // - Arguments should not be a class, but an actual argument list!?!
-    @Override
-    public void thenReturn(Supplier<R> result) {
-      methodInvocationStub.accept(result);
-    }
-
-    @Override
-    public void thenThrow(Throwable throwable) {
-
-    }
-  }
-
-  private interface MethodInvocationStub<T> {
-    Supplier<T> responseSupplier();
   }
 
   private class Method1InvocationStub implements Consumer<Supplier<String>> {
