@@ -15,7 +15,7 @@ post. This is an attempt at doing it for a single application without making tes
 running the entire app.
 
 The solution consists/may consist of the following parts:
-1. A standard way of defining 'module' boundaries+APIs.
+1. A standard way of defining 'module' boundaries+APIs. This is provider interfaces.
     1. Probably will/should include specifying that all parameters and return values are value objects. See 
        https://www.infoq.com/presentations/Value-Values. 
     1. Probably will/should involve using an annotated interface in Java, at least.
@@ -25,14 +25,14 @@ The solution consists/may consist of the following parts:
     1. Current [example](integration-test/src/test/java/com/spotify/covenant/example/EasyExampleStub.java) 
        of what it could look like.
 1. A solution for recording test invocations made by consumers, and persisting them somewhere.
-1. A solution for retrieving test invocations when testing producers.
+1. A solution for retrieving test invocations when testing providers.
     1. Should include some kind of execution-specific method of defining where to retrieve invocations
        from. Maybe setting an environment variable, or configuring via a service loader, or sth.
     1. Should also include some kind of filtering capability - you don't want to make it possible
-       for consumers to 'randomly' break producers by adding a bad test invocation.
-1. A solution for replaying test invocations when testing producers.
+       for consumers to 'randomly' break providers by adding a bad test invocation.
+1. A solution for replaying test invocations when testing providers.
     1. Current [example](integration-test/src/test/java/com/spotify/covenant/example/EasyExampleProducerTest.java). 
-1. Some management interface, allowing an overview of what producers are defined, which consumers
+1. Some management interface, allowing an overview of what providers are defined, which consumers
    use them, and what their test invocations are.
 
 ## TODO
@@ -52,6 +52,7 @@ The solution consists/may consist of the following parts:
 
 - pick some data store to use
 - define a solution for configuring data store/location
+- eventually, probably pick a better invocation format
 
 ### Retrieving
 
@@ -66,7 +67,7 @@ The solution consists/may consist of the following parts:
 
 - Seems like it will be datastore-dependent
 - Plug into Z?!
-- Overview of all producers, for each
+- Overview of all providers, for each
     - List all consumers, for each
         - List all recordings, for each
             - List all invocations
