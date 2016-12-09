@@ -40,6 +40,8 @@ public class EasyExampleProducerTest {
 
     @Override
     public List<PotentialAssignment> getValueSources(ParameterSignature sig) throws Throwable {
+      // it would be possible here to get configuration out of the parameter signature, maybe
+      // helping make retrieving recorded invocations more flexible (?)
       return Arrays.asList(
           PotentialAssignment.forValue("one", Invocations.create(EasyExample.class.getName(), "method1", "floop", Arrays.asList("string", 5711)))
       );
