@@ -5,6 +5,7 @@ This is an experimental library trying to implement application-internal consume
 testing.
 
 Objectives: 
+
 1. In a large codebase, make it easy to test integration between different modules. 
 1. Through easier integration testing and better module isolation, make it easier to scale up to a 
    large number of teams working on a shared codebase.
@@ -15,6 +16,7 @@ post. This is an attempt at doing it for a single application without making tes
 running the entire app.
 
 The solution consists/may consist of the following parts:
+
 1. A standard way of defining 'module' boundaries+APIs. This is provider interfaces.
     1. Probably will/should include specifying that all parameters and return values are value objects. See 
        https://www.infoq.com/presentations/Value-Values. 
